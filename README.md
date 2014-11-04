@@ -26,18 +26,21 @@ Example content of username:password file:
 
 ## badrill.py
 
-Standard output:
+Standard output with elements explained:
 ```python
  15:03 > python .\badrill.py
-
- 155.x.x.16         4       ||       401 Error
- 155.x.x.17         4       ||       401 Error
- 155.x.x.26         4       ||       401 Error
- 155.x.x.27         32               Authentication Page
- 155.x.x.10         32               -
- 155.x.x.199        2                -
- 155.x.x.95         2                -
- 155.x.x.104        2                -
+ #
+ # IP           HTTP_CODES  ATTEMPTS   PAGE TITLES
+ #
+ 
+ 155.x.x.16         4         ||       401 Error
+ 155.x.x.17         4         ||       401 Error
+ 155.x.x.26         4         ||       401 Error
+ 155.x.x.27         32                 Authentication Page
+ 155.x.x.10         32                 -
+ 155.x.x.199        2                  -
+ 155.x.x.95         2                  -
+ 155.x.x.104        2                  -
 ```
 
 Options available:
