@@ -43,10 +43,11 @@ Standard output with elements explained:
  155.x.x.104        2                  -
 ```
 
-* **HTTP CODES**: `4` means anything in the 400 - 499 range
-            `3` means basically redirection
-            `34` redirected to 4
-            `2` HTTP OK
+* **HTTP CODES**: 
+    * `4` means anything in the 400 - 499 range
+    * `3` means basically redirection
+    * `34` redirected to 4
+    * `2` HTTP OK
 
 * **ATTEMPTS**: number of vertical bars depends on the number of pairs of username:password. If you got a lot of them - you better disable those with `-m`.
 
