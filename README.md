@@ -3,20 +3,10 @@ badrill
 
 ### Basic Authentication DRILL
 
-* BASH version available.
-
-* Python version in alpha.
+* Python version available. 
+* BASH version available. |Deprecated|
 
 -----
-### Variables
-
-```bash
-ips=`cat ip.list`       # File with list of IPs
-users=`cat users.list`  # File with list of username:password pairs
-PING_CHECK=0            # whether to check if there is a ping response
-DISPLAY_DEAD=1          # whether to show those that did not respond to ping
-```
-
 ### Description
 
 Originally created to search for routers with default password and management http interface publicly available, although can be used agains any server protected with basic authentication.
@@ -33,6 +23,65 @@ Example content of username:password file:
     admin:administrator
     admin:comcast
     admin:1234
+
+## badrill.py
+
+Standard output:
+```python
+ 15:03 > python .\badrill.py
+
+ 155.x.x.16         4       ||       401 Error
+ 155.x.x.17         4       ||       401 Error
+ 155.x.x.26         4       ||       401 Error
+ 155.x.x.27         32               Authentication Page
+ 155.x.x.10         32               -
+ 155.x.x.199        2                -
+ 155.x.x.95         2                -
+ 155.x.x.104        2                -
+```
+
+Options available:
+```python 
+ 15:07 > python .\badrill.py -h
+ 
+usage: badrill.py [-h] [-q] [-m] [-i iplist] [-a authlist]
+
+optional arguments:
+  -h, --help                            show this help message and exit
+  -q, --quiet                           If quiet is set, html>title will not be shown.
+  -m, --mute                            Do not show each attempt of authentication.
+  -i iplist, --iplist iplist            Override path to file that contains ip list.
+  -a authlist, --authlist authlist      Override path to file that contains username:password pairs.
+  
+```
+
+
+Minimal view:
+```
+ 15:08 > python .\badrill.py -mq
+
+ 155.x.x.16         4
+ 155.x.x.17         4
+ 155.x.x.26         4
+ 155.x.x.27         32
+ 155.x.x.10         32
+ 155.x.x.199        2
+ 155.x.x.95         2
+ 155.x.x.104        2
+```
+
+
+-----
+## badrill.sh
+
+### Variables
+
+```bash
+ips=`cat ip.list`       # File with list of IPs
+users=`cat users.list`  # File with list of username:password pairs
+PING_CHECK=0            # whether to check if there is a ping response
+DISPLAY_DEAD=1          # whether to show those that did not respond to ping
+```
 
 Here is script output produced when displaying all IPs and their statuses:
 
