@@ -23,12 +23,12 @@ Example content of username:password file:
 
 Here is script output produced when displaying all IPs and their statuses:
 
-![Finding routers with default password][https://raw.githubusercontent.com/mnmnc/img/master/full2.png]
+![Finding routers with default password](https://raw.githubusercontent.com/mnmnc/img/master/full2.png)
 
 
 ..and the other output displaying only alive ones:
 
-![Finding routers with default password][https://raw.githubusercontent.com/mnmnc/img/master/active2.png]
+![Finding routers with default password](https://raw.githubusercontent.com/mnmnc/img/master/active2.png)
 
 * `ALIVE` means host responded to ping.
 * `200` means HTTP server response on port 80 was HTTP/1.* 200 OK.
