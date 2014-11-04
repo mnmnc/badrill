@@ -1,4 +1,6 @@
 import requests
+from bs4 import BeautifulSoup
+
 
 requests.packages.urllib3.disable_warnings()
 
@@ -31,17 +33,20 @@ def check_location(url):
 		return " "
 
 
-def get_body(url):
-	r = requests.get(url)
+def get_title(url):
+	r = requests.get(url, verify=False)
 	text = r.text
-
+	soup = BeautifulSoup(text)
+	try:
+		return (soup.title.string).strip("\n")
+	except:
+		return "-"
 
 def analyze(url, auth_list):
 	code = check_status(url)
 
 	if code == 200:
-		print(int(code/100), end="")
-
+		print(int(code/100), "\t", get_title(url), end="")
 	elif 299 < code < 400:
 		print(int(code/100), end="")
 		location = check_location(url)
@@ -49,9 +54,9 @@ def analyze(url, auth_list):
 	elif code == 401:
 		print(int(code/100), end="\t")
 		attack(url, auth_list)
+		print("\t", get_title(url), end="")
 	else:
 		print("OTH", end="")
-
 
 def attack(url, auth_list):
 	for pair in auth_list:
@@ -65,7 +70,7 @@ def attack(url, auth_list):
 
 
 def authenticate(url, user, passwd):
-	req = requests.get(url, auth=(user, passwd))
+	req = requests.get(url, auth=(user, passwd), verify=False)
 	return req.status_code
 
 
