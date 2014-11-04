@@ -30,7 +30,7 @@ Standard output with elements explained:
 ```python
  15:03 > python .\badrill.py
  #
- # IP           HTTP_CODES  ATTEMPTS   PAGE TITLES
+ # IP           HTTP_CODES  ATTEMPTS   PAGE TITLES OR SUCCESSES IN AUTHENTICATION
  #
  
  155.x.x.16         4         |        SUCCESS:  admin:admin
