@@ -3,8 +3,9 @@ badrill
 
 Basic Authentication DRILL
 
-BASH version available.
-Python version in alpha.
+**BASH version available.
+
+**Python version in alpha.
 
 Originally created to search for routers with default password and management http interface publicly available, although can be used agains any server protected with basic authentication.
 
