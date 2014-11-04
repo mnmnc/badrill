@@ -33,7 +33,7 @@ Standard output with elements explained:
  # IP           HTTP_CODES  ATTEMPTS   PAGE TITLES
  #
  
- 155.x.x.16         4         ||       401 Error
+ 155.x.x.16         4         |        SUCCESS:  admin:admin
  155.x.x.17         4         ||       401 Error
  155.x.x.26         4         ||       401 Error
  155.x.x.27         32                 Authentication Page
@@ -63,7 +63,7 @@ Minimal view:
 ```python
  15:08 > python .\badrill.py -mq
 
- 155.x.x.16         4
+ 155.x.x.16         4       SUCCESS:  admin:admin
  155.x.x.17         4
  155.x.x.26         4
  155.x.x.27         32
