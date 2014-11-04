@@ -9,9 +9,9 @@ badrill
 -----
 ### Description
 
-Originally created to search for routers with default password and management http interface publicly available, although can be used agains any server protected with basic authentication.
+Originally created to **search for routers with default password** and management http interface publicly available, although can be used agains any server protected with **basic authentication**.
 
-This script assumes you have a list of ip addresses stored in one file and list of username:password pairs in the other. There are some variables within the script itself which allow you to limit the search to the hosts that respond to ICMP echo requests or display only those IP’s that responded to ping. This is designed such way because some hosts might not respond to ICMP echo request and still have open port 80.
+This script assumes you have a list of **ip addresses** stored in one file and list of **username:password** pairs in the other.
 
 Example content of username:password file:
 
@@ -57,7 +57,7 @@ optional arguments:
 
 
 Minimal view:
-```
+```python
  15:08 > python .\badrill.py -mq
 
  155.x.x.16         4
@@ -73,6 +73,9 @@ Minimal view:
 
 -----
 ## badrill.sh
+
+### Note: 
+There are some variables within the script itself which allow you to limit the search to the hosts that respond to ICMP echo requests or display only those IP’s that responded to ping. This is designed such way because some hosts might not respond to ICMP echo request and still have open port 80.
 
 ### Variables
 
