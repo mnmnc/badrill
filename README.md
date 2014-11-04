@@ -1,11 +1,23 @@
 badrill
 =======
 
-Basic Authentication DRILL
+### Basic Authentication DRILL
 
 * BASH version available.
 
 * Python version in alpha.
+
+-----
+### Variables
+
+```bash
+ips=`cat ip.list`       # File with list of IPs
+users=`cat users.list`  # File with list of username:password pairs
+PING_CHECK=0            # whether to check if there is a ping response
+DISPLAY_DEAD=1          # whether to show those that did not respond to ping
+```
+
+### Description
 
 Originally created to search for routers with default password and management http interface publicly available, although can be used agains any server protected with basic authentication.
 
